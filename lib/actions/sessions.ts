@@ -5,9 +5,9 @@ import { revalidatePath } from "next/cache";
 
 export async function getStudySessionsAction() {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("study_sessions").select("*, courses(title)").order("date", { ascending: false });
+  const { data, error } = (await supabase).from("study_sessions").select("*, courses(title)").order("date", { ascending: false });
   if (error) return { error: error.message };
-  return { sessions: data };
+  return { sessions: data as any[] };
 }
 
 export async function logStudySessionAction(formData: FormData) {
@@ -24,7 +24,7 @@ export async function logStudySessionAction(formData: FormData) {
   if (!title || isNaN(duration_minutes)) return { error: "Invalid input" };
 
   const { error } = await supabase.from("study_sessions").insert({
-    user_id: user.id,
+    student_id: user.id,
     title,
     duration_minutes,
     date: date || new Date().toISOString().split('T')[0],

@@ -5,9 +5,9 @@ import { revalidatePath } from "next/cache";
 
 export async function getAssignmentsAction() {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("assignments").select("*, courses(title)").order("due_date", { ascending: true });
+  const { data, error } = (await supabase).from("assignments").select("*, courses(title)").order("due_date", { ascending: true });
   if (error) return { error: error.message };
-  return { assignments: data };
+  return { assignments: data as any[] };
 }
 
 export async function createAssignmentAction(formData: FormData) {
@@ -23,7 +23,7 @@ export async function createAssignmentAction(formData: FormData) {
   if (!title) return { error: "Title is required" };
 
   const { error } = await supabase.from("assignments").insert({
-    user_id: user.id,
+    student_id: user.id,
     title,
     description,
     due_date: due_date || null,

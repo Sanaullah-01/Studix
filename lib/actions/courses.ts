@@ -5,9 +5,9 @@ import { revalidatePath } from "next/cache";
 
 export async function getCoursesAction() {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("courses").select("*").order("created_at", { ascending: false });
+  const { data, error } = (await supabase).from("courses").select("*").order("created_at", { ascending: false });
   if (error) return { error: error.message };
-  return { courses: data };
+  return { courses: data as any[] };
 }
 
 export async function createCourseAction(formData: FormData) {
@@ -27,7 +27,7 @@ export async function createCourseAction(formData: FormData) {
   if (!title) return { error: "Title is required" };
 
   const { error } = await supabase.from("courses").insert({
-    user_id: user.id,
+    student_id: user.id,
     title,
     description,
     instructor,

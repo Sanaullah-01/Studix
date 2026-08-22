@@ -63,7 +63,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <h3 className="font-medium text-foreground mb-1">Office</h3>
-                <p className="text-muted-foreground">123 Academic Way, Suite 400<br/>San Francisco, CA 94107</p>
+                <p className="text-muted-foreground">Islamabad Pakistan Nutech University</p>
               </div>
             </div>
           </div>

@@ -5,9 +5,9 @@ import { revalidatePath } from "next/cache";
 
 export async function getNotesAction() {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("notes").select("*, courses(title, color)").order("created_at", { ascending: false });
+  const { data, error } = (await supabase).from("notes").select("*, courses(title, color)").order("created_at", { ascending: false });
   if (error) return { error: error.message };
-  return { notes: data };
+  return { notes: data as any[] };
 }
 
 export async function createNoteAction(formData: FormData) {
@@ -43,7 +43,7 @@ export async function createNoteAction(formData: FormData) {
   }
 
   const { error } = await supabase.from("notes").insert({
-    user_id: user.id,
+    student_id: user.id,
     course_id: courseId !== "none" ? courseId : null,
     title,
     content,
